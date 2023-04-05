@@ -1,77 +1,86 @@
 package co3;
 import java.util.*;
-import java.time.LocalDate; 
 
-interface calculate
+interface shop
 {
-	void netamount();
-	double total(int quantity,float price);
-	
+	void calculate();
 }
-//creating a class for each item
-class Item
+
+class Product
 {
 	int prodid;
-	String Name;
+	String name;
 	int quantity;
-	float unitprice;
+	float price;
 	float total;
-	Item(int prodid,String name,int quantity,float unitprice)
+	Product(int prodid,String name,int quantity,float price,float total)
 	{
 		this.prodid=prodid;
-		this.Name=name;
+		this.name=name;
 		this.quantity=quantity;
-		this.unitprice=unitprice;
-		this.total=(float)(total);
+		this.price=price;
+		this.total=total;
 	}
+	
 }
 
-//creating a class for orders
-
-class Order implements calculate
-
+class Order implements shop
 {
-	float total,net;
+	Date date;
 	int orderno;
-	String date;
-	Item items[];
-	public double total(int quantity,float price)
+	Product item[];
+	int n;
+	float net;
+	
+	Scanner s=new Scanner(System.in);
+	Order(int orderno,int n)
 	{
-		return quantity*price;
-	}
-	Scanner s =new Scanner(System.in);
-	Order()
-	{
-		this.orderno=s.nextInt();
-		this.date=s.next();
-		System.out.println("Enter the number of items");
-		int n=s.nextInt();
-		items=new Item[n];
-		for(int i=0;i<items.length;i++)
+		this.orderno=orderno;
+		this.n=n;
+		date=new Date();
+		item=new Product[n];
+		for(int i=0;i<n;i++)
 		{
-			System.out.println("Please enter the Product id ,name,quantity and unit price\n");
+			System.out.println("Enter the product id,name,quantity,price of the item"+""+(i+1));
 			int pid=s.nextInt();
-			String name=s.next();
-			int quantity=s.nextInt();
-			float price=s.nextFloat();
-			items[i]=new Item(pid,name,quantity,price);
+			String pname=s.next();
+			int pq=s.nextInt();
+			float qpr=s.nextFloat();
+			float ptotal=pq*qpr;
+			item[i]=new Product(pid,pname,pq,qpr,ptotal);
 		}
 	}
-	public void netamount()
+	public void calculate()
 	{	float net=0;
-		for(int i=0;i<items.length;i++)
+		System.out.println("------------------------------------------------------------------------------------------------------");
+		System.out.println();
+		System.out.println("Order No :"+""+this.orderno);
+		System.out.println();
+		System.out.printf("Date : %tD%n\n\n",this.date);
+		System.out.println("Product Id\tName\t\tQuantity\tPrice\t\tTotal\n");
+		System.out.println("______________________________________________________________________________________________________");
+		for(int i=0;i<item.length;i++)
 		{
-			net+=items[i].total;
-		}
-	}
+			net+=item[i].total;
+		System.out.println(item[i].prodid+"\t\t"+item[i].name+"\t\t"+item[i].quantity+"\t\t"+item[i].price+"\t\t"+item[i].total+"\n");
+		
+	    }
+		System.out.println("__________________________________________________________________________________________________________");
+		System.out.println("\t\t\t\t\tNET AMOUNT ="+""+net);
+    }
+	
 }
-
-
 public class q7 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-
+		System.out.println("Enter the number of items in the order");
+		Scanner s =new Scanner(System.in);
+		int n=s.nextInt();
+		int orderno=(int)(Math.random()*1000);
+		Order x= new Order(orderno,n);
+		x.calculate();	
+		s.close();
 	}
 
 }
