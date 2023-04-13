@@ -25,6 +25,7 @@ public class q1 {
 				obj4.area();break;
 		}
 			}while(choice!=0);
+		scan.close();
 		}
-	}
+}
 
